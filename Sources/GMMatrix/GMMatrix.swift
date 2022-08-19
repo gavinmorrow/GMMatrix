@@ -99,3 +99,6 @@ public struct GMMatrix<T> {
 		}
 	}
 }
+
+extension GMMatrix: Codable where T: Codable {}
+extension GMMatrix: Equatable where T: Equatable {}
