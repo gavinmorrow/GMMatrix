@@ -83,7 +83,7 @@ public struct GMMatrix<T> {
 	/// - Parameter y: The `y` value to check.
 	/// - Returns: `true` if the `y` value is valid, `false` if it is not.
 	public func check(y: Int) -> Bool {
-		y >= 0 && y < columns
+		y >= 0 && y < rows
 	}
 	
 	// MARK: - Subscripts
