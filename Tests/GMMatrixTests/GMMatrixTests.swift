@@ -52,4 +52,26 @@ final class GMMatrixTests: XCTestCase {
 		let matrix2 = GMMatrix<Any>(rows: 10, columns: 0)
 		XCTAssert(matrix2.matrix.count == 0, "Matrix size is wrong.")
 	}
+	
+	func testMatrixIterator() {
+		let matrix = GMMatrix(initalValue: 0, rows: 5, columns: 10)
+		
+		var currentX = 0
+		var currentY = 0
+		
+		for (x, y, value) in matrix {
+			let currentValue = matrix[currentX, currentY]
+			
+			XCTAssert(x == currentX, "`x` value is innacurate.")
+			XCTAssert(y == currentY, "`y` value is innacurate.")
+			XCTAssert(currentValue == value, "`value` value is innacurate.")
+			
+			currentX += 1
+			
+			if currentX >= matrix.columns {
+				currentX = 0
+				currentY += 1
+			}
+		}
+	}
 }

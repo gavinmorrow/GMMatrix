@@ -98,7 +98,25 @@ public struct GMMatrix<T> {
 			try? setElement(newValue: newValue, x: x, y: y)
 		}
 	}
+
+	// MARK: - Sequence & IteratorProtocol Conformance
+	private var currentIndex = 0
+	public mutating func next() -> (x: Int, y: Int, value: T?)? {
+		guard currentIndex < matrix.count else {
+			return nil
+		}
+		
+		defer {
+			currentIndex += 1
+		}
+		
+		let x = currentIndex % columns
+		let y = Int(currentIndex / columns)
+		
+		return (x: x, y: y, value: matrix[currentIndex])
+	}
 }
 
 extension GMMatrix: Codable where T: Codable {}
 extension GMMatrix: Equatable where T: Equatable {}
+extension GMMatrix: Sequence, IteratorProtocol {}
