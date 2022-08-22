@@ -12,8 +12,23 @@ final class GMMatrixTests: XCTestCase {
 	}
 	
 	func testMatrixInitWithInitialValue() {
-		let matrix = GMMatrix<String>(initalValue: "Hello, World!", rows: 5, columns: 10)
+		let matrix = GMMatrix(initalValue: "Hello, World!", rows: 5, columns: 10)
 		XCTAssert(matrix.matrix.allSatisfy( { $0 == "Hello, World!" }), "Initial value wasn't set.")
+	}
+	
+	func testMatrixInitWithInitialMatrix() throws {
+		let matrix = try GMMatrix(matrix: [1, 2, 3, 4, 5, 6], columns: 3)
+		XCTAssert(matrix.matrix == [1, 2, 3, 4, 5, 6], "Matrix wasn't set properly.")
+		XCTAssert(matrix.rows == 2, "Matrix has an invalid amount of rows.")
+		XCTAssert(matrix.columns == 3, "Matrix has an invalid amount of columns.")
+		
+		XCTAssertThrowsError(
+			try GMMatrix(matrix: [1, 2, 3, 4, 5, 6, 7], columns: 3),
+			"Matrix didn't throw for an invalid array."
+		) { error in
+			XCTAssert(type(of: error) == GMMatrixError.self, "Wrong error type.")
+			XCTAssert(error as? GMMatrixError == GMMatrixError.invalidArray, "Wrong GMMatrixError.")
+		}
 	}
 	
 	func testAddingValue() throws {

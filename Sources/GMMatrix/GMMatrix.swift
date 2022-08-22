@@ -1,25 +1,53 @@
+import Foundation
+
 public struct GMMatrix<T> {
 	
 	// MARK: Inits
 	
+	/// Create a matrix with one initial value for all the elements.
 	/// - Parameters:
 	///   - value: The initial value to fill the matrix with.
 	///   - rows: The amount of rows in the matrix.
 	///   - columns: The amount of columns in the matrix.
 	public init(initalValue value: T? = nil, rows: Int, columns: Int) {
-		self.matrix = Array(
-			repeating: value,
-			count: rows * columns
+		try! self.init(
+			matrix: Array(
+				repeating: value,
+				count: rows * columns
+			),
+			columns: columns
 		)
+	}
+	
+	/// Create a matrix from an initial value.
+	/// - Parameters:
+	///   - matrix: The data.
+	///   - columns: The amount of columns in the matrix.
+	/// - Throws: ``GMMatrixError/invalidArray`` if the array isn't
+	///           rectangular with the amount of columns given.
+	public init(matrix: [T?], columns: Int) throws {
+		let rowsDouble: Double
+		
+		if columns == 0 {
+			rowsDouble = 0
+		} else {
+			rowsDouble = Double(matrix.count) / Double(columns)
+		}
+		
+		// Validation
+		guard let rows = Int(exactly: rowsDouble) else {
+			throw GMMatrixError.invalidArray
+		}
 		
 		self.rows = rows
 		self.columns = columns
+		self.matrix = matrix
 	}
 	
 	// MARK: - Properties
 	
 	/// The data being stored.
-	public private(set) var matrix: [T?]
+	public var matrix: [T?]
 	
 	/// The amount of rows in the matrix.
 	public let rows: Int
