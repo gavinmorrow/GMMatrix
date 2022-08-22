@@ -10,4 +10,6 @@ import Foundation
 public enum GMMatrixError: Error {
 	case xValueOutOfBounds
 	case yValueOutOfBounds
+	
+	case invalidArray
 }
