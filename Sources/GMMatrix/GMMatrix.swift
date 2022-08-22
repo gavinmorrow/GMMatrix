@@ -19,7 +19,7 @@ public struct GMMatrix<T> {
 	// MARK: - Properties
 	
 	/// The data being stored.
-	public private(set) var matrix: [T?]
+	public var matrix: [T?]
 	
 	/// The amount of rows in the matrix.
 	public let rows: Int
